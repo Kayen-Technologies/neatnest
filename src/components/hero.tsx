@@ -6,7 +6,7 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden">
       <div className="shell pt-8 pb-8 md:pt-14 md:pb-12">
         <div className="grid items-end gap-8 md:grid-cols-[1.4fr_1fr] md:gap-12">
-          <h1 className="font-display text-[clamp(2.9rem,7.4vw,5.6rem)] font-medium leading-[0.98] tracking-[-0.02em] text-ink">
+          <h1 className="font-display text-[clamp(2.4rem,6.5vw,4.5rem)] font-medium leading-[1.04] tracking-[-0.02em] text-ink">
             Where every space reflects comfort{" "}
             <span className="font-normal italic">&amp;</span> excellence.
           </h1>

@@ -23,6 +23,15 @@ export const metadata: Metadata = {
   title: "Neat Nest — Cleaning Services in Accra",
   description:
     "Neat Nest is a discreet, detail-obsessed cleaning house caring for the homes, offices and residences of Accra's most considered clients.",
+  icons: {
+    icon: [
+      { url: "/images/favicon_io/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/images/favicon_io/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/favicon_io/favicon.ico" },
+    ],
+    apple: "/images/favicon_io/apple-touch-icon.png",
+  },
+  manifest: "/images/favicon_io/site.webmanifest",
 };
 
 export default function RootLayout({

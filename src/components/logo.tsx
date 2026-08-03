@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 type LogoProps = {
   className?: string;
@@ -6,19 +7,22 @@ type LogoProps = {
 };
 
 export function Logo({ className = "", tone = "dark" }: LogoProps) {
-  const text = tone === "light" ? "text-cream" : "text-ink";
-  const sub = tone === "light" ? "text-cream/70" : "text-muted";
   return (
-    <Link href="/" className={`flex items-center gap-2.5 ${className}`} aria-label="Neat Nest home">
-      <BuildingMark className={tone === "light" ? "text-cream" : "text-brown"} />
-      <span className="leading-none">
-        <span className={`font-display block text-[22px] font-semibold tracking-tight ${text}`}>
-          Neat<span className="ml-[1px]">Nest</span>
-        </span>
-        <span className={`mt-[3px] block text-[8px] font-medium uppercase tracking-[0.42em] ${sub}`}>
-          Cleaning Services
-        </span>
-      </span>
+    <Link
+      href="/"
+      className={`inline-flex items-center ${className}`}
+      aria-label="Neat Nest home"
+    >
+      <Image
+        src="/images/logo1.png"
+        alt="Neat Nest Logo"
+        width={500}
+        height={180}
+        priority
+        className={`h-16 md:h-20 w-auto max-w-[340px] md:max-w-[480px] object-contain ${
+          tone === "light" ? "brightness-0 invert" : ""
+        }`}
+      />
     </Link>
   );
 }

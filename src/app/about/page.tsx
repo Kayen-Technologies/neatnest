@@ -35,9 +35,20 @@ export default function AboutPage() {
       {/* Story */}
       <section className="shell py-20 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
+          <ScrollReveal
+            baseOpacity={0}
+            enableBlur={true}
+            blurStrength={6}
+            baseRotation={1}
+            containerClassName="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink"
+            as="h2"
+            rotationStart="top bottom"
+            rotationEnd="bottom center"
+            wordAnimationStart="top bottom"
+            wordAnimationEnd="bottom center"
+          >
             The story behind the standard.
-          </h2>
+          </ScrollReveal>
           <ScrollReveal
             baseOpacity={0}
             enableBlur={true}

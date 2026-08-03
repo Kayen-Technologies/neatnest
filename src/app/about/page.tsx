@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Reel } from "@/components/reel";
 import { CTA } from "@/components/cta";
 import { aboutValues, aboutPrinciples } from "@/lib/data";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export const metadata: Metadata = {
   title: "About — Neat Nest",
@@ -37,7 +38,18 @@ export default function AboutPage() {
           <h2 className="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
             The story behind the standard.
           </h2>
-          <p className="mt-6 text-[15px] leading-[1.9] text-muted">
+          <ScrollReveal
+            baseOpacity={0}
+            enableBlur={true}
+            blurStrength={8}
+            baseRotation={1}
+            containerClassName="mt-6 text-[15px] leading-[1.9] text-muted"
+            as="p"
+            rotationStart="top bottom"
+            rotationEnd="bottom center"
+            wordAnimationStart="top bottom"
+            wordAnimationEnd="bottom center"
+          >
             Neat Nest Cleaning Agency is a premium cleaning company based in
             Accra, Ghana, dedicated to delivering exceptional cleaning
             experiences for homes, offices, hotels, and real estate properties.
@@ -49,7 +61,7 @@ export default function AboutPage() {
             establishments offering tailored solutions that fit every need and
             budget. At Neat Nest, a clean space isn&rsquo;t just a service;
             it&rsquo;s our promise.
-          </p>
+          </ScrollReveal>
         </div>
       </section>
 

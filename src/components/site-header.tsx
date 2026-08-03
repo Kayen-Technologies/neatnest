@@ -32,17 +32,23 @@ export function SiteHeader() {
         {/* Desktop nav pill */}
         <div className="hidden items-center rounded-full bg-cream-soft/90 py-1.5 pl-8 pr-1.5 shadow-[0_1px_0_rgba(0,0,0,0.03)] backdrop-blur lg:flex">
           <nav className="flex items-center gap-8 text-[15px] text-ink/85">
-            {navLinks.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`transition-colors hover:text-brown ${
-                  pathname === l.href ? "text-brown" : ""
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
+            {navLinks.map((l) => {
+              const active = pathname === l.href;
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className={`relative py-1 transition-colors hover:text-brown ${
+                    active ? "font-medium text-brown" : ""
+                  }`}
+                >
+                  {l.label}
+                  {active && (
+                    <span className="absolute -bottom-1 left-1/2 h-[2.5px] w-4 -translate-x-1/2 rounded-full bg-brown transition-all duration-300" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
           <Link
             href="/schedule"
@@ -97,15 +103,23 @@ export function SiteHeader() {
               </button>
             </div>
             <nav className="mt-8 flex flex-col">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="border-b border-ink/10 py-5 text-xl text-ink transition-colors hover:text-brown"
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {navLinks.map((l) => {
+                const active = pathname === l.href;
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className={`flex items-center justify-between border-b border-ink/10 py-5 text-xl transition-colors hover:text-brown ${
+                      active ? "font-medium text-brown" : "text-ink"
+                    }`}
+                  >
+                    <span>{l.label}</span>
+                    {active && (
+                      <span className="h-[2px] w-5 rounded-full bg-brown" />
+                    )}
+                  </Link>
+                );
+              })}
             </nav>
             <Link
               href="/schedule"

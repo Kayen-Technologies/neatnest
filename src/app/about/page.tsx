@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Reel } from "@/components/reel";
 import { CTA } from "@/components/cta";
 import { aboutValues, aboutPrinciples } from "@/lib/data";
 import ScrollReveal from "@/components/scroll-reveal";
+import { DesktopValuesGrid } from "@/components/desktop-values-grid";
+import { MobileValuesCard } from "@/components/mobile-values-card";
 
 export const metadata: Metadata = {
   title: "About — Neat Nest",
@@ -79,73 +80,18 @@ export default function AboutPage() {
       {/* Values (dark) */}
       <section className="bg-ink text-cream">
         <div className="shell py-20 md:py-28">
-          <h2 className="max-w-4xl font-display text-[clamp(1.7rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.01em] text-cream">
+          <h2 className="w-full font-display text-[clamp(1.7rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.01em] text-cream">
             We care for every space with the same quiet precision, thoughtful
             craftsmanship, and unwavering attention to detail.
           </h2>
 
+          <div className="mt-8 border-b border-white/20 pb-4" />
+
           {/* Mobile carousel */}
-          <div className="mt-10 lg:hidden">
-            <Reel itemClassName="w-[80%]" tone="light">
-              {aboutValues.map((v) => (
-                <article
-                  key={v.title}
-                  className="flex h-full min-h-[300px] flex-col rounded-2xl bg-white/[0.05] p-6"
-                >
-                  <span className="text-sm text-cream/45">{v.numeral}</span>
-                  <span className="mt-3 font-display text-2xl font-medium text-cream">
-                    {v.title}
-                  </span>
-                  <p className="mt-auto pt-8 text-[13.5px] leading-relaxed text-cream/60">
-                    {v.description}
-                  </p>
-                </article>
-              ))}
-            </Reel>
-          </div>
+          <MobileValuesCard values={aboutValues} />
 
           {/* Desktop grid */}
-          <div className="mt-12 hidden grid-cols-4 gap-3 lg:grid">
-            {aboutValues.map((v, i) => {
-              const imageCell = (
-                <div className="relative min-h-[300px] overflow-hidden rounded-2xl">
-                  <Image
-                    src={v.image}
-                    alt={v.title}
-                    fill
-                    sizes="25vw"
-                    className="object-cover"
-                  />
-                </div>
-              );
-              const textCell = (
-                <div className="flex min-h-[300px] flex-col rounded-2xl bg-white/[0.05] p-6">
-                  <span className="text-sm text-cream/45">{v.numeral}</span>
-                  <span className="mt-3 font-display text-2xl font-medium text-cream">
-                    {v.title}
-                  </span>
-                  <p className="mt-auto pt-8 text-[13.5px] leading-relaxed text-cream/60">
-                    {v.description}
-                  </p>
-                </div>
-              );
-              return (
-                <div key={v.title} className="contents">
-                  {i < 2 ? (
-                    <>
-                      {imageCell}
-                      {textCell}
-                    </>
-                  ) : (
-                    <>
-                      {textCell}
-                      {imageCell}
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <DesktopValuesGrid values={aboutValues} />
         </div>
       </section>
 

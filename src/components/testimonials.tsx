@@ -11,7 +11,7 @@ export function Testimonials() {
 
   // Auto-advance
   useEffect(() => {
-    const id = setInterval(() => setActive((a) => (a + 1) % n), 7000);
+    const id = setInterval(() => setActive((a) => (a + 1) % n), 3000);
     return () => clearInterval(id);
   }, [n]);
 

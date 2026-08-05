@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { services } from "@/lib/data";
+import { ZoomImage } from "./zoom-image";
 
 export function Services() {
   const [active, setActive] = useState(0);
@@ -43,15 +44,12 @@ export function Services() {
               >
                 Discover this Service
               </Link>
-              <div className="relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-[18px]">
-                <Image
-                  src={s.image}
-                  alt={s.name}
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                />
-              </div>
+              <ZoomImage
+                src={s.image}
+                alt={s.name}
+                sizes="100vw"
+                frameClassName="relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-[18px]"
+              />
             </div>
           ))}
         </div>
@@ -63,12 +61,11 @@ export function Services() {
             className="relative aspect-[4/5] w-full overflow-hidden rounded-[22px]"
             style={{ animation: "fadeUp 0.5s ease both" }}
           >
-            <Image
+            <ZoomImage
               src={current.image}
               alt={current.name}
-              fill
               sizes="50vw"
-              className="object-cover"
+              frameClassName="absolute inset-0"
             />
           </div>
 

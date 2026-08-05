@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { galleryImages } from "@/lib/data";
@@ -19,6 +19,11 @@ export function Gallery() {
   const [active, setActive] = useState(0);
   const n = galleryImages.length;
   const offsets = [-3, -2, -1, 0, 1, 2, 3];
+
+  useEffect(() => {
+    const id = setInterval(() => setActive((a) => (a + 1) % n), 3000);
+    return () => clearInterval(id);
+  }, [n]);
 
   return (
     <section id="spaces" className="overflow-hidden py-20 md:py-28">

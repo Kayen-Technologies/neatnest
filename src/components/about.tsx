@@ -15,7 +15,7 @@ export function About() {
             alt="Natural-bristle cleaning brushes in a stoneware pot"
             fill
             sizes="(max-width: 768px) 100vw, 40vw"
-            className="object-cover"
+            className="object-cover object-right"
           />
         </div>
 

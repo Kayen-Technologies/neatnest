@@ -5,11 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
 import { navLinks } from "@/lib/data";
+import { useSchedule } from "@/lib/schedule-context";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { openSchedule } = useSchedule();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -50,12 +52,13 @@ export function SiteHeader() {
               );
             })}
           </nav>
-          <Link
-            href="/schedule"
-            className="ml-8 rounded-full bg-brown px-6 py-3 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark"
+          <button
+            type="button"
+            onClick={openSchedule}
+            className="ml-8 rounded-full bg-brown px-6 py-3 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark cursor-pointer"
           >
             Schedule a Visit
-          </Link>
+          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -121,12 +124,16 @@ export function SiteHeader() {
                 );
               })}
             </nav>
-            <Link
-              href="/schedule"
-              className="mt-auto rounded-full bg-brown py-4 text-center text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark"
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openSchedule();
+              }}
+              className="mt-auto rounded-full bg-brown py-4 text-center text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark cursor-pointer"
             >
               Schedule a Visit
-            </Link>
+            </button>
           </div>
         </div>
       )}

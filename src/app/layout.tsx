@@ -3,6 +3,8 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ScheduleProvider } from "@/lib/schedule-context";
+import { ScheduleDrawer } from "@/components/schedule-drawer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -45,9 +47,12 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <ScheduleProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+          <ScheduleDrawer />
+        </ScheduleProvider>
       </body>
     </html>
   );

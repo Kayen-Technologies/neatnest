@@ -1,22 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { services } from "@/lib/data";
+import {
+  getActiveServiceIndex,
+  getServiceCardState,
+} from "@/lib/services-showcase";
 import { ZoomImage } from "./zoom-image";
 
+type ShowcaseState = {
+  activeIndex: number;
+  titleVisible: boolean;
+};
+
 export function Services() {
-  const [active, setActive] = useState(0);
+  const scrollCanvasRef = useRef<HTMLDivElement>(null);
+  const [showcase, setShowcase] = useState<ShowcaseState>({
+    activeIndex: -1,
+    titleVisible: true,
+  });
   const count = services.length;
-  const current = services[active];
-  const nextIndex = (active + 1) % count;
-  const next = services[nextIndex];
-  const pad = (n: number) => String(n).padStart(2, "0");
+  const pad = (value: number) => String(value).padStart(2, "0");
+
+  useEffect(() => {
+    const scrollCanvas = scrollCanvasRef.current;
+    if (!scrollCanvas) return;
+
+    const siteHeader = document.querySelector<HTMLElement>("body > header");
+    let frame = 0;
+
+    const updateLayout = () => {
+      frame = 0;
+
+      const rect = scrollCanvas.getBoundingClientRect();
+      const totalScrollable = Math.max(
+        1,
+        scrollCanvas.offsetHeight - window.innerHeight,
+      );
+      const progress = Math.max(0, Math.min(1, -rect.top / totalScrollable));
+      const activeIndex = getActiveServiceIndex(progress, count);
+      const titleVisible = progress <= 0.04;
+      const sceneIsPinned = rect.top <= 0 && rect.bottom >= window.innerHeight;
+
+      setShowcase((current) =>
+        current.activeIndex === activeIndex &&
+        current.titleVisible === titleVisible
+          ? current
+          : { activeIndex, titleVisible },
+      );
+
+      siteHeader?.classList.toggle(
+        "services-showcase-header-hidden",
+        sceneIsPinned,
+      );
+    };
+
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateLayout);
+    };
+
+    updateLayout();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
+      siteHeader?.classList.remove("services-showcase-header-hidden");
+    };
+  }, [count]);
 
   return (
     <section id="services" className="bg-cream">
-      <div className="shell py-20 md:py-28">
+      <div className="services-static-intro shell pt-20 md:pt-28">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
             Curated services, considered in every detail.
@@ -27,16 +86,17 @@ export function Services() {
             invited into.
           </p>
         </div>
+      </div>
 
-        {/* Mobile: stacked list of all services */}
-        <div className="mt-12 space-y-14 lg:hidden">
-          {services.map((s) => (
-            <div key={s.id}>
+      <div className="services-static-list shell pb-20 pt-12 md:pb-28">
+        <div className="space-y-14">
+          {services.map((service) => (
+            <article key={service.id}>
               <h3 className="font-display text-2xl font-medium text-ink">
-                {s.name}
+                {service.name}
               </h3>
               <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted">
-                {s.description}
+                {service.description}
               </p>
               <Link
                 href="/services"
@@ -45,76 +105,80 @@ export function Services() {
                 Discover this Service
               </Link>
               <ZoomImage
-                src={s.image}
-                alt={s.name}
+                src={service.image}
+                alt={service.name}
                 sizes="100vw"
                 frameClassName="relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-[18px]"
               />
-            </div>
+            </article>
           ))}
         </div>
+      </div>
 
-        {/* Desktop: featured carousel */}
-        <div className="relative mt-16 hidden grid-cols-[1.1fr_1fr] items-center gap-16 lg:grid">
+      <div
+        ref={scrollCanvasRef}
+        className="services-scroll-showcase"
+        style={{ height: `${(count + 1.5) * 100}svh` }}
+      >
+        <div className="services-showcase" aria-label="Our services">
           <div
-            key={current.id}
-            className="relative aspect-[4/5] w-full overflow-hidden rounded-[22px]"
-            style={{ animation: "fadeUp 0.5s ease both" }}
+            className={`services-showcase__title${showcase.titleVisible ? "" : " is-hidden"}`}
           >
-            <ZoomImage
-              src={current.image}
-              alt={current.name}
-              sizes="50vw"
-              frameClassName="absolute inset-0"
-            />
+            <span>Curated services,</span>
+            <span>considered in every detail.</span>
           </div>
 
-          <div className="relative">
-            <div key={current.id} style={{ animation: "fadeUp 0.5s ease both" }}>
-              <span className="text-xs font-medium uppercase tracking-[0.32em] text-brown-soft">
-                {pad(active + 1)} &nbsp;/&nbsp; {pad(count)}
-              </span>
-              <h3 className="mt-4 font-display text-[clamp(2rem,3.6vw,2.9rem)] font-medium text-ink">
-                {current.name}
-              </h3>
-              <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted">
-                {current.description}
-              </p>
-              <Link
-                href="/services"
-                className="mt-5 inline-block border-b border-ink/40 pb-1 text-[15px] text-ink transition-colors hover:border-brown hover:text-brown"
-              >
-                Discover this Service
-              </Link>
+          <div className="services-showcase__cards">
+            {services.map((service, index) => {
+              const cardState = getServiceCardState(
+                index,
+                showcase.activeIndex,
+              );
+
+              return (
+                <div
+                  key={service.id}
+                  className={`services-showcase__card is-${cardState}`}
+                  data-card-index={index}
+                  aria-hidden="true"
+                >
+                  <Image
+                    src={service.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 40vw, 82vw"
+                    className="object-cover"
+                    priority={index < 2}
+                  />
+                </div>
+              );
+            })}
+
+            <div className="services-showcase__content">
+              {services.map((service, index) => {
+                const isActive = showcase.activeIndex === index;
+
+                return (
+                  <article
+                    key={service.id}
+                    className={`services-showcase__copy${isActive ? " is-active" : ""}`}
+                    aria-hidden={!isActive}
+                  >
+                    <span className="services-showcase__number">
+                      {pad(index + 1)} / {pad(count)}
+                    </span>
+                    <p className="services-showcase__eyebrow">{service.name}</p>
+                    <h3>{service.description}</h3>
+                    <Link href="/services" tabIndex={isActive ? 0 : -1}>
+                      Discover this Service
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
-
-            <button
-              type="button"
-              onClick={() => setActive(nextIndex)}
-              className="group mt-10 flex items-center gap-4 text-left"
-              aria-label={`Next service: ${next.name}`}
-            >
-              <span className="relative block h-24 w-28 overflow-hidden rounded-xl ring-1 ring-black/5">
-                <Image
-                  src={next.image}
-                  alt={next.name}
-                  fill
-                  sizes="120px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </span>
-              <span className="text-[13px] leading-tight text-muted">
-                <span className="block uppercase tracking-[0.28em] text-brown-soft">
-                  Next
-                </span>
-                <span className="mt-1 block text-ink">{next.name}</span>
-              </span>
-            </button>
-
-            <span className="pointer-events-none absolute -bottom-14 left-0 text-xs uppercase tracking-[0.32em] text-muted">
-              The Services
-            </span>
           </div>
+
+
         </div>
       </div>
     </section>

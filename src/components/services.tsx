@@ -164,9 +164,6 @@ export function Services() {
                     className={`services-showcase__copy${isActive ? " is-active" : ""}`}
                     aria-hidden={!isActive}
                   >
-                    <span className="services-showcase__number">
-                      {pad(index + 1)} / {pad(count)}
-                    </span>
                     <p className="services-showcase__eyebrow">{service.name}</p>
                     <h3>{service.description}</h3>
                     <Link href="/services" tabIndex={isActive ? 0 : -1}>
@@ -178,7 +175,9 @@ export function Services() {
             </div>
           </div>
 
-
+          <span className="services-showcase__label" aria-hidden="true">
+            The services
+          </span>
         </div>
       </div>
     </section>

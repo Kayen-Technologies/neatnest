@@ -183,12 +183,13 @@ body {
     transform: translate(-50%, 0);
     background: var(--color-ink);
     box-shadow: 0 25px 50px -12px rgb(31 24 20 / 22%);
-    transition: all 700ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 900ms cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform, opacity, width, height, top, left;
   }
 
   .services-showcase__card img {
-    transition: transform 800ms cubic-bezier(0.19, 1, 0.22, 1);
+    object-position: top;
+    transition: transform 900ms cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   .services-showcase__card.is-intro {

@@ -5,32 +5,48 @@ import { steps, type Step } from "@/lib/data";
 
 const toneMap: Record<
   Step["tone"],
-  { card: string; eyebrow: string; step: string; numeral: string; desc: string }
+  {
+    headerBg: string;
+    bodyBg: string;
+    headerText: string;
+    bodyText: string;
+    step: string;
+    numeral: string;
+    desc: string;
+  }
 > = {
   light: {
-    card: "bg-[#edeae3] text-ink",
-    eyebrow: "border-black/8 text-ink",
+    headerBg: "bg-[#f5f5f3]",
+    bodyBg: "bg-[#f5f5f3] text-ink",
+    headerText: "text-ink",
+    bodyText: "text-ink",
+    step: "text-muted",
+    numeral: "text-ink/15",
+    desc: "text-muted",
+  },
+  cream: {
+    headerBg: "bg-[#faf7f2]",
+    bodyBg: "bg-[#f2ebe1] text-ink",
+    headerText: "text-ink",
+    bodyText: "text-ink",
     step: "text-muted",
     numeral: "text-ink/20",
     desc: "text-muted",
   },
-  cream: {
-    card: "bg-cream-soft text-ink",
-    eyebrow: "border-black/8 text-ink",
-    step: "text-muted",
-    numeral: "text-ink/25",
-    desc: "text-muted",
-  },
   ink: {
-    card: "bg-ink text-cream",
-    eyebrow: "border-white/10 text-cream",
+    headerBg: "bg-[#5a5a5a]",
+    bodyBg: "bg-[#1a1a1a] text-cream",
+    headerText: "text-cream",
+    bodyText: "text-cream",
     step: "text-cream/55",
     numeral: "text-cream/95",
     desc: "text-cream/60",
   },
   brown: {
-    card: "bg-brown text-cream",
-    eyebrow: "border-white/15 text-cream",
+    headerBg: "bg-[#998475]",
+    bodyBg: "bg-[#5c4b3f] text-cream",
+    headerText: "text-cream",
+    bodyText: "text-cream",
     step: "text-cream/60",
     numeral: "text-cream/95",
     desc: "text-cream/65",
@@ -82,23 +98,26 @@ function StepIcon({ i, className }: { i: number; className?: string }) {
 function StepCard({ s, i }: { s: Step; i: number }) {
   const t = toneMap[s.tone];
   return (
-    <article
-      className={`flex h-full flex-col overflow-hidden rounded-[26px] ${t.card}`}
-    >
-      <div className={`flex items-center gap-2.5 border-b px-6 py-5 ${t.eyebrow}`}>
+    <article className="flex h-full flex-col">
+      {/* Top Header Card */}
+      <div
+        className={`flex items-center gap-2.5 rounded-[15px] px-6 py-4 ${t.headerBg} ${t.headerText}`}
+      >
         <StepIcon i={i} />
-        <span className="text-[13px]">{s.eyebrow}</span>
+        <span className="text-[13px] font-medium">{s.eyebrow}</span>
       </div>
-      <div className="flex flex-1 flex-col px-6 pb-8 pt-6">
+
+      {/* Bottom Body Card */}
+      <div className={`flex flex-1 flex-col rounded-[20px] px-6 pb-8 pt-6 ${t.bodyBg}`}>
         <span className={`text-[11px] uppercase tracking-[0.28em] ${t.step}`}>
           Step
         </span>
         <span
-          className={`mt-4 font-display text-[76px] font-medium leading-none ${t.numeral}`}
+          className={`mt-3 font-display text-[76px] font-medium leading-none ${t.numeral}`}
         >
           {s.numeral}
         </span>
-        <h3 className="mt-auto pt-8 font-display text-2xl font-medium">
+        <h3 className="mt-auto pt-6 font-display text-2xl font-medium">
           {s.title}
         </h3>
         <p className={`mt-3 text-[13.5px] leading-relaxed ${t.desc}`}>

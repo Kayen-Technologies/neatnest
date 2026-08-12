@@ -427,3 +427,188 @@ body {
     right: 1.25rem;
   }
 }
+
+/* About page principles: a pinned scene crossfades through each principle. */
+.principles-static-content {
+  display: block;
+}
+
+.principles-scroll-showcase {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .principles-static-content {
+    display: none;
+  }
+
+  .principles-scroll-showcase {
+    display: block;
+  }
+
+  .principles-showcase {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-brown);
+  }
+
+  .principles-showcase__title {
+    position: absolute;
+    top: clamp(4rem, 8vh, 6rem);
+    left: 50%;
+    z-index: 30;
+    width: min(90vw, 900px);
+    color: var(--color-cream);
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4.4vw, 3.3rem);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-align: center;
+    transform: translate(-50%, 0);
+    transition: opacity 500ms ease, transform 500ms ease;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .principles-showcase__title.is-hidden {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+
+  .principles-showcase__pairs {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .principles-showcase__pair {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 500ms ease, transform 500ms ease;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .principles-showcase__pair.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .principles-showcase__row {
+    position: relative;
+    width: 100%;
+    border-top: 1px solid rgb(245 239 229 / 15%);
+    border-bottom: 1px solid rgb(245 239 229 / 15%);
+    padding-block: 2rem;
+  }
+
+  .principles-showcase-header-hidden {
+    opacity: 0;
+    transform: translateY(-110%);
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .principles-showcase__row {
+    padding-block: 3rem;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .principles-showcase__title {
+    top: 3.5rem;
+    width: calc(100% - 32px);
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
+  }
+}
+
+/* Spaces page: a pinned scene crossfades through each before/after pair. */
+.spaces-static-content {
+  display: block;
+}
+
+.spaces-scroll-showcase {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spaces-static-content {
+    display: none;
+  }
+
+  .spaces-scroll-showcase {
+    display: block;
+  }
+
+  .spaces-showcase {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-background);
+  }
+
+  .spaces-showcase__pairs {
+    position: absolute;
+    inset: 0;
+  }
+
+  .spaces-showcase__pair {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 500ms ease, transform 500ms ease;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .spaces-showcase__pair.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .spaces-showcase__label {
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .spaces-showcase-header-hidden {
+    opacity: 0;
+    transform: translateY(-110%);
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .spaces-showcase__pair {
+    padding-inline: 24px;
+  }
+
+  .spaces-showcase__pair figure {
+    aspect-ratio: 16 / 9;
+  }
+}

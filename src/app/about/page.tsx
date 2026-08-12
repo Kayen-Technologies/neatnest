@@ -5,6 +5,7 @@ import { aboutValues, aboutPrinciples } from "@/lib/data";
 import ScrollReveal from "@/components/scroll-reveal";
 import { DesktopValuesGrid } from "@/components/desktop-values-grid";
 import { MobileValuesCard } from "@/components/mobile-values-card";
+import { PrinciplesShowcase } from "@/components/principles-showcase";
 
 export const metadata: Metadata = {
   title: "About — Neat Nest",
@@ -97,42 +98,7 @@ export default function AboutPage() {
 
       {/* Principles (brown) */}
       <section className="bg-brown text-cream">
-        <div className="shell py-16 md:py-24">
-          <h2 className="max-w-2xl font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-cream">
-            The standard, gently held visit after visit.
-          </h2>
-
-          <div className="mt-8">
-            {aboutPrinciples.map((p, i) => (
-              <div
-                key={p.title}
-                className="relative border-t border-white/15 py-8 md:py-12"
-              >
-                <div
-                  className={`relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-xl md:absolute md:top-1/2 md:mb-0 md:aspect-auto md:h-28 md:w-28 md:-translate-y-1/2 ${
-                    i % 2 === 0 ? "md:left-0 lg:left-8" : "md:right-0 lg:right-8"
-                  }`}
-                >
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 160px"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="text-left md:mx-auto md:max-w-md md:text-center">
-                  <h3 className="font-display text-2xl font-medium text-cream">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-[14px] leading-relaxed text-cream/70">
-                    {p.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <PrinciplesShowcase principles={aboutPrinciples} />
       </section>
 
       <CTA />

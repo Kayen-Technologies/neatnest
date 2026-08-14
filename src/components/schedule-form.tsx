@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { scheduleOptions } from "@/lib/data";
+import { useSchedule } from "@/lib/schedule-context";
 
 const fieldClass =
   "w-full rounded-xl bg-background px-4 py-3.5 text-[15px] text-ink placeholder:text-muted outline-none ring-1 ring-black/5 focus:ring-2 focus:ring-brown/40";
@@ -17,6 +17,8 @@ export function ScheduleForm() {
     setSubmitted(true);
   };
 
+  const { closeSchedule } = useSchedule();
+
   if (submitted) {
     return (
       <div className="flex min-h-[420px] flex-col items-center justify-center rounded-3xl bg-background/60 p-10 text-center ring-1 ring-black/5">
@@ -27,32 +29,40 @@ export function ScheduleForm() {
           Thank you. A member of the Neat Nest team will be in touch shortly to
           confirm your assessment and arrange a visit.
         </p>
-        <Link
-          href="/"
-          className="mt-8 rounded-full bg-brown px-7 py-3 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark"
+        <button
+          type="button"
+          onClick={() => {
+            setSubmitted(false);
+            closeSchedule();
+          }}
+          className="mt-8 rounded-full bg-brown px-7 py-3 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark cursor-pointer"
         >
           Back to Home
-        </Link>
+        </button>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="max-w-[450px]">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="font-display text-2xl font-medium text-ink">
           Cleaning Assessment Request
         </h2>
-        <Link
-          href="/"
+        <button
+          type="button"
+          onClick={closeSchedule}
           aria-label="Close"
-          className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
+          className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink cursor-pointer"
         >
-          Close
+          <span className="hidden md:inline">Close</span>
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-background ring-1 ring-black/5">
-            &times;
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="block md:hidden">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span className="hidden md:inline">&times;</span>
           </span>
-        </Link>
+        </button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">

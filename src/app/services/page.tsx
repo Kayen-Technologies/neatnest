@@ -5,6 +5,7 @@ import { PageHero } from "@/components/page-hero";
 import { CTA } from "@/components/cta";
 import { serviceDetails } from "@/lib/data";
 import { Reel } from "@/components/reel";
+import { ScheduleButton } from "@/components/schedule-button";
 
 export const metadata: Metadata = {
   title: "Services — Neat Nest",
@@ -89,12 +90,9 @@ export default function ServicesPage() {
             </div>
 
             <div className="mt-10 flex justify-center">
-              <Link
-                href="/schedule"
-                className="inline-flex items-center rounded-full bg-brown px-7 py-3.5 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark"
-              >
+              <ScheduleButton className="inline-flex items-center rounded-full bg-brown px-7 py-3.5 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark">
                 Schedule a Visit
-              </Link>
+              </ScheduleButton>
             </div>
           </div>
         </section>

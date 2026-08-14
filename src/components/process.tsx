@@ -1,34 +1,52 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { steps, type Step } from "@/lib/data";
-import { Reel } from "./reel";
 
 const toneMap: Record<
   Step["tone"],
-  { card: string; eyebrow: string; step: string; numeral: string; desc: string }
+  {
+    headerBg: string;
+    bodyBg: string;
+    headerText: string;
+    bodyText: string;
+    step: string;
+    numeral: string;
+    desc: string;
+  }
 > = {
   light: {
-    card: "bg-[#edeae3] text-ink",
-    eyebrow: "border-black/8 text-ink",
+    headerBg: "bg-[#f5f5f3]",
+    bodyBg: "bg-[#f5f5f3] text-ink",
+    headerText: "text-ink",
+    bodyText: "text-ink",
+    step: "text-muted",
+    numeral: "text-ink/15",
+    desc: "text-muted",
+  },
+  cream: {
+    headerBg: "bg-[#faf7f2]",
+    bodyBg: "bg-[#f2ebe1] text-ink",
+    headerText: "text-ink",
+    bodyText: "text-ink",
     step: "text-muted",
     numeral: "text-ink/20",
     desc: "text-muted",
   },
-  cream: {
-    card: "bg-cream-soft text-ink",
-    eyebrow: "border-black/8 text-ink",
-    step: "text-muted",
-    numeral: "text-ink/25",
-    desc: "text-muted",
-  },
   ink: {
-    card: "bg-ink text-cream",
-    eyebrow: "border-white/10 text-cream",
+    headerBg: "bg-[#5a5a5a]",
+    bodyBg: "bg-[#1a1a1a] text-cream",
+    headerText: "text-cream",
+    bodyText: "text-cream",
     step: "text-cream/55",
     numeral: "text-cream/95",
     desc: "text-cream/60",
   },
   brown: {
-    card: "bg-brown text-cream",
-    eyebrow: "border-white/15 text-cream",
+    headerBg: "bg-[#998475]",
+    bodyBg: "bg-[#5c4b3f] text-cream",
+    headerText: "text-cream",
+    bodyText: "text-cream",
     step: "text-cream/60",
     numeral: "text-cream/95",
     desc: "text-cream/65",
@@ -80,23 +98,26 @@ function StepIcon({ i, className }: { i: number; className?: string }) {
 function StepCard({ s, i }: { s: Step; i: number }) {
   const t = toneMap[s.tone];
   return (
-    <article
-      className={`flex h-full min-h-[340px] flex-col overflow-hidden rounded-[26px] ${t.card}`}
-    >
-      <div className={`flex items-center gap-2.5 border-b px-6 py-5 ${t.eyebrow}`}>
+    <article className="flex h-full flex-col">
+      {/* Top Header Card */}
+      <div
+        className={`flex items-center gap-2.5 rounded-[15px] px-6 py-4 ${t.headerBg} ${t.headerText}`}
+      >
         <StepIcon i={i} />
-        <span className="text-[13px]">{s.eyebrow}</span>
+        <span className="text-[13px] font-medium">{s.eyebrow}</span>
       </div>
-      <div className="flex flex-1 flex-col px-6 pb-8 pt-6">
+
+      {/* Bottom Body Card */}
+      <div className={`flex flex-1 flex-col rounded-[20px] px-6 pb-8 pt-6 ${t.bodyBg}`}>
         <span className={`text-[11px] uppercase tracking-[0.28em] ${t.step}`}>
           Step
         </span>
         <span
-          className={`mt-4 font-display text-[76px] font-medium leading-none ${t.numeral}`}
+          className={`mt-3 font-display text-[76px] font-medium leading-none ${t.numeral}`}
         >
           {s.numeral}
         </span>
-        <h3 className="mt-auto pt-8 font-display text-2xl font-medium">
+        <h3 className="mt-auto pt-6 font-display text-2xl font-medium">
           {s.title}
         </h3>
         <p className={`mt-3 text-[13.5px] leading-relaxed ${t.desc}`}>
@@ -107,26 +128,68 @@ function StepCard({ s, i }: { s: Step; i: number }) {
   );
 }
 
+// A fixed-position slot whose displayed step rotates every tick. All 4 steps
+// are stacked and cross-faded via opacity — the slot itself never moves, only
+// its content changes, so several slots side by side read as "shifting" in
+// sync without anything actually sliding.
+function Slot({ slotIndex, rotation }: { slotIndex: number; rotation: number }) {
+  const n = steps.length;
+  const activeStep = (slotIndex + rotation) % n;
+  return (
+    <div className="relative h-[400px] sm:h-[360px] lg:h-[400px]">
+      {steps.map((s, i) => (
+        <div
+          key={s.numeral}
+          aria-hidden={i !== activeStep}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: i === activeStep ? 1 : 0 }}
+        >
+          <StepCard s={s} i={i} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Process() {
+  const n = steps.length;
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setRotation((r) => (r + 1) % n), 3000);
+    return () => clearInterval(id);
+  }, [n]);
+
   return (
     <section className="shell py-20 md:py-28">
       <h2 className="mx-auto max-w-2xl text-center font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
         An experience composed in four quiet movements.
       </h2>
 
-      {/* Mobile carousel */}
+      {/* Mobile: one rotating card */}
       <div className="mt-12 sm:hidden">
-        <Reel itemClassName="w-[80%]">
-          {steps.map((s, i) => (
-            <StepCard key={s.numeral} s={s} i={i} />
+        <div className="mx-auto max-w-md">
+          <Slot slotIndex={0} rotation={rotation} />
+        </div>
+        <div className="mt-6 flex justify-center gap-2">
+          {steps.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Show step ${i + 1}`}
+              onClick={() => setRotation(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === rotation ? "w-6 bg-ink" : "w-1.5 bg-ink/20 hover:bg-ink/40"
+              }`}
+            />
           ))}
-        </Reel>
+        </div>
       </div>
 
-      {/* Tablet / desktop grid */}
+      {/* Tablet / desktop: all 4 fixed slots, content rotates through them */}
       <div className="mt-14 hidden gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-4 lg:gap-3.5">
-        {steps.map((s, i) => (
-          <StepCard key={s.numeral} s={s} i={i} />
+        {Array.from({ length: n }, (_, slot) => (
+          <Slot key={slot} slotIndex={slot} rotation={rotation} />
         ))}
       </div>
     </section>

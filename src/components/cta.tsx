@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import { useSchedule } from "@/lib/schedule-context";
 
 export function CTA() {
+  const { openSchedule } = useSchedule();
+
   return (
     <section id="contact" className="relative overflow-hidden">
       <Image
@@ -26,12 +30,13 @@ export function CTA() {
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-medium leading-[1.05] tracking-[-0.015em] text-ink">
               Bring comfort back to your space.
             </h2>
-            <Link
-              href="/schedule"
-              className="mt-7 inline-flex items-center rounded-full bg-background px-7 py-3.5 text-[15px] font-medium text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)] transition-colors hover:bg-brown hover:text-cream"
+            <button
+              type="button"
+              onClick={openSchedule}
+              className="mt-7 inline-flex items-center rounded-full bg-background px-7 py-3.5 text-[15px] font-medium text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)] transition-colors hover:bg-brown hover:text-cream cursor-pointer"
             >
               Schedule a Visit
-            </Link>
+            </button>
           </div>
         </div>
       </div>

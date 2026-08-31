@@ -15,7 +15,7 @@ export function PageHero({ title, description, image, imageAlt }: PageHeroProps)
           <h1 className="font-display text-[clamp(2.6rem,6.4vw,5rem)] font-medium leading-[0.98] tracking-[-0.02em] text-ink">
             {title}
           </h1>
-          <p className="max-w-sm text-[15px] leading-relaxed text-muted md:ml-auto md:pb-2">
+          <p className="max-w-sm text-[15px] leading-relaxed text-[#5E5E5E] md:ml-auto md:pb-2">
             {description}
           </p>
         </div>

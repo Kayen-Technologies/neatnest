@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import Image from "next/image";
 import { steps, type Step } from "@/lib/data";
 
 const toneMap: Record<
@@ -16,83 +17,62 @@ const toneMap: Record<
   }
 > = {
   light: {
-    headerBg: "bg-[#f5f5f3]",
-    bodyBg: "bg-[#f5f5f3] text-ink",
-    headerText: "text-ink",
+    headerBg: "bg-[#F8F8F8]",
+    bodyBg: "bg-[#F5F5F5] text-ink",
+    headerText: "text-#1E1E1E",
     bodyText: "text-ink",
-    step: "text-muted",
-    numeral: "text-ink/15",
-    desc: "text-muted",
+    step: "text-[#A8A4A4]",
+    numeral: "text-[#1E1E1E1A]",
+    desc: "text-[#A8A4A4]",
   },
   cream: {
-    headerBg: "bg-[#faf7f2]",
-    bodyBg: "bg-[#f2ebe1] text-ink",
-    headerText: "text-ink",
+    headerBg: "bg-[#F5EFE6B2]",
+    bodyBg: "bg-[#F5EFE6] text-ink",
+    headerText: "text-[#1A1A1A]",
     bodyText: "text-ink",
-    step: "text-muted",
-    numeral: "text-ink/20",
-    desc: "text-muted",
+    step: "text-[#A8A4A4]",
+    numeral: "text-[#1E1E1E1A]",
+    desc: "text-[#A8A4A4]",
   },
   ink: {
-    headerBg: "bg-[#5a5a5a]",
+    headerBg: "bg-[#1A1A1AB2]",
     bodyBg: "bg-[#1a1a1a] text-cream",
-    headerText: "text-cream",
+    headerText: "text-white",
     bodyText: "text-cream",
-    step: "text-cream/55",
-    numeral: "text-cream/95",
-    desc: "text-cream/60",
+    step: "text-white",
+    numeral: "text-white",
+    desc: "text-white",
   },
   brown: {
-    headerBg: "bg-[#998475]",
-    bodyBg: "bg-[#5c4b3f] text-cream",
-    headerText: "text-cream",
-    bodyText: "text-cream",
-    step: "text-cream/60",
-    numeral: "text-cream/95",
-    desc: "text-cream/65",
+    headerBg: "bg-[#6B4F3AB2]",
+    bodyBg: "bg-[#6B4F3A] text-cream",
+    headerText: "text-white",
+    bodyText: "text-white",
+    step: "text-white",
+    numeral: "text-[#FFFFFFCC]",
+    desc: "text-white",
   },
 };
 
 function StepIcon({ i, className }: { i: number; className?: string }) {
-  const common = {
-    width: 16,
-    height: 16,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.4,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    className,
-  };
-  switch (i) {
-    case 0: // consultation — chat
-      return (
-        <svg {...common} aria-hidden="true">
-          <path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z" />
-        </svg>
-      );
-    case 1: // scheduling — calendar
-      return (
-        <svg {...common} aria-hidden="true">
-          <rect x="3" y="4" width="18" height="17" rx="2" />
-          <path d="M3 9h18M8 2v4M16 2v4" />
-        </svg>
-      );
-    case 2: // cleaning — sparkle
-      return (
-        <svg {...common} aria-hidden="true">
-          <path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z" />
-        </svg>
-      );
-    default: // inspection — check badge
-      return (
-        <svg {...common} aria-hidden="true">
-          <path d="M9 12l2 2 4-4" />
-          <circle cx="12" cy="12" r="9" />
-        </svg>
-      );
-  }
+  const images = [
+    "/images/icons/home/experience/men.jpg",
+    "/images/icons/home/experience/check.jpg",
+    "/images/icons/home/experience/broom.jpg",
+    "/images/icons/home/experience/tick.jpg",
+  ];
+
+  return (
+    <div className={`relative h-4 w-4 overflow-hidden rounded-full ${className || ""}`}>
+      <Image
+        src={images[i] || images[0]}
+        alt=""
+        fill
+        sizes="16px"
+        className="object-cover"
+      />
+    </div>
+  );
 }
 
 function StepCard({ s, i }: { s: Step; i: number }) {
@@ -101,26 +81,26 @@ function StepCard({ s, i }: { s: Step; i: number }) {
     <article className="flex h-full flex-col">
       {/* Top Header Card */}
       <div
-        className={`flex items-center gap-2.5 rounded-[15px] px-6 py-4 ${t.headerBg} ${t.headerText}`}
+        className={`flex flex-col justify-start items-start gap-2.5 rounded-[20px] px-6 py-4 ${t.headerBg} ${t.headerText}`}
       >
         <StepIcon i={i} />
         <span className="text-[13px] font-medium">{s.eyebrow}</span>
       </div>
 
       {/* Bottom Body Card */}
-      <div className={`flex flex-1 flex-col rounded-[20px] px-6 pb-8 pt-6 ${t.bodyBg}`}>
+      <div className={`flex flex-1 flex-col rounded-[20px] px-6 pb-15 pt-6 ${t.bodyBg}`}>
         <span className={`text-[11px] uppercase tracking-[0.28em] ${t.step}`}>
           Step
         </span>
         <span
-          className={`mt-3 font-display text-[76px] font-medium leading-none ${t.numeral}`}
+          className={`mt-17 mb-8 font-display text-[76px] flex justify-center font-medium leading-none ${t.numeral}`}
         >
           {s.numeral}
         </span>
         <h3 className="mt-auto pt-6 font-display text-2xl font-medium">
           {s.title}
         </h3>
-        <p className={`mt-3 text-[13.5px] leading-relaxed ${t.desc}`}>
+        <p className={`mt-5 text-[13.5px] leading-relaxed ${t.desc}`}>
           {s.description}
         </p>
       </div>
@@ -128,68 +108,82 @@ function StepCard({ s, i }: { s: Step; i: number }) {
   );
 }
 
-// A fixed-position slot whose displayed step rotates every tick. All 4 steps
-// are stacked and cross-faded via opacity — the slot itself never moves, only
-// its content changes, so several slots side by side read as "shifting" in
-// sync without anything actually sliding.
-function Slot({ slotIndex, rotation }: { slotIndex: number; rotation: number }) {
-  const n = steps.length;
-  const activeStep = (slotIndex + rotation) % n;
-  return (
-    <div className="relative h-[400px] sm:h-[360px] lg:h-[400px]">
-      {steps.map((s, i) => (
-        <div
-          key={s.numeral}
-          aria-hidden={i !== activeStep}
-          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-          style={{ opacity: i === activeStep ? 1 : 0 }}
-        >
-          <StepCard s={s} i={i} />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 export function Process() {
-  const n = steps.length;
-  const [rotation, setRotation] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const id = setInterval(() => setRotation((r) => (r + 1) % n), 3000);
-    return () => clearInterval(id);
-  }, [n]);
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    Array.from(container.children).forEach((child, index) => {
+      const el = child as HTMLElement;
+      const childCenter = el.offsetLeft + el.offsetWidth / 2;
+      const distance = Math.abs(containerCenter - childCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    setActiveIndex(closestIndex);
+  };
+
+  const scrollToStep = (index: number) => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const card = container.children[index] as HTMLElement | undefined;
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      setActiveIndex(index);
+    }
+  };
 
   return (
-    <section className="shell py-20 md:py-28">
+    <section className="shell py-20 md:py-30">
       <h2 className="mx-auto max-w-2xl text-center font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
         An experience composed in four quiet movements.
       </h2>
 
-      {/* Mobile: one rotating card */}
+      {/* Mobile: swipeable cards with scroll snap */}
       <div className="mt-12 sm:hidden">
-        <div className="mx-auto max-w-md">
-          <Slot slotIndex={0} rotation={rotation} />
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth -mx-6 px-6 scroll-pl-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {steps.map((s, i) => (
+            <div key={s.numeral} className="w-[85%] shrink-0 snap-center">
+              <div className="h-[500px]">
+                <StepCard s={s} i={i} />
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="mt-6 flex justify-center gap-2">
+        <div className="mt-15 flex justify-center gap-2.5">
           {steps.map((_, i) => (
             <button
               key={i}
               type="button"
               aria-label={`Show step ${i + 1}`}
-              onClick={() => setRotation(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === rotation ? "w-6 bg-ink" : "w-1.5 bg-ink/20 hover:bg-ink/40"
+              onClick={() => scrollToStep(i)}
+              className={`h-3 w-3 rounded-full transition-colors ${
+                i === activeIndex ? "bg-[#222B4ACC]" : "bg-[#222B4A33]"
               }`}
             />
           ))}
         </div>
       </div>
 
-      {/* Tablet / desktop: all 4 fixed slots, content rotates through them */}
-      <div className="mt-14 hidden gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-4 lg:gap-3.5">
-        {Array.from({ length: n }, (_, slot) => (
-          <Slot key={slot} slotIndex={slot} rotation={rotation} />
+      {/* Tablet / desktop: all 4 fixed slots */}
+      <div className="mt-20 hidden gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-4 lg:gap-3.5">
+        {steps.map((s, i) => (
+          <div key={s.numeral} className="h-[500px] sm:h-[540px] lg:h-[400px]">
+            <StepCard s={s} i={i} />
+          </div>
         ))}
       </div>
     </section>

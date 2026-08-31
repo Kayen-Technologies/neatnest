@@ -69,14 +69,14 @@ export function Reel({
             type="button"
             aria-label={`Go to item ${i + 1}`}
             onClick={() => scrollTo(i)}
-            className={`h-1.5 rounded-full transition-all ${
+            className={`h-3 w-3 rounded-full transition-all ${
               i === active
                 ? tone === "light"
-                  ? "w-6 bg-cream"
-                  : "w-6 bg-ink"
+                  ? "bg-[#222B4A33]"
+                  : "bg-[#222B4ACC]"
                 : tone === "light"
-                  ? "w-1.5 bg-cream/30"
-                  : "w-1.5 bg-ink/25"
+                  ? "bg-[#222B4A33]"
+                  : "bg-[#222B4A33]"
             }`}
           />
         ))}

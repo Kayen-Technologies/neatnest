@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useRef, useState } from "react";
 import { AboutValue } from "@/lib/data";
 
 interface MobileValuesCardProps {
@@ -9,62 +8,61 @@ interface MobileValuesCardProps {
 }
 
 export function MobileValuesCard({ values }: MobileValuesCardProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [flipped, setFlipped] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFlipped((prevFlipped) => {
-        // If we are currently showing the flipped (image) side, step to the next card index and show text side again
-        if (prevFlipped) {
-          setCurrentIndex((prevIdx) => (prevIdx + 1) % values.length);
-          return false;
-        }
-        // If we are currently showing text side, flip to image side
-        return true;
-      });
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [values.length]);
-
-  const currentVal = values[currentIndex];
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    
+    // Total scrollable area
+    const maxScrollLeft = scrollWidth - clientWidth;
+    
+    // Prevent divide by zero
+    if (maxScrollLeft <= 0) return;
+    
+    // Proportion of scroll progress (0 to 1)
+    const scrollProgress = scrollLeft / maxScrollLeft;
+    
+    // Map progress directly to an index
+    const index = Math.round(scrollProgress * (values.length - 1));
+    setActiveIndex(index);
+  };
 
   return (
-    <div className="mt-10 lg:hidden flex justify-center">
-      <div className="relative h-[320px] w-full max-w-[340px] [perspective:1000px]">
-        <div
-          className={`relative h-full w-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d] ${
-            flipped ? "[transform:rotateY(180deg)]" : ""
-          }`}
-        >
-          {/* Text side (Front: 0deg) */}
-          <div className="absolute inset-0 flex h-full w-full flex-col rounded-2xl bg-white/[0.05] p-6 [backface-visibility:hidden]">
-            <span className="text-sm text-cream/45">{currentVal.numeral}</span>
-            <span className="mt-3 font-display text-2xl font-medium text-cream">
-              {currentVal.title}
+    <div className="mt-10 lg:hidden">
+      {/* Scroll container */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scroll-pl-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {values.map((val) => (
+          <div
+            key={val.numeral}
+            className="relative flex h-[380px] w-[85vw] max-w-[320px] flex-none snap-start flex-col rounded-xl bg-[#3C3C3C] p-6"
+          >
+            <span className="text-sm text-white">{val.numeral}</span>
+            <span className="mt-3 text-lg font-medium text-white">
+              {val.title}
             </span>
-            <p className="mt-auto pt-8 text-[13.5px] leading-relaxed text-cream/60">
-              {currentVal.description}
+            <p className="mt-auto pt-8 text-[13.5px] leading-relaxed text-[#FFFFFFB2]">
+              {val.description}
             </p>
           </div>
+        ))}
+      </div>
 
-          {/* Image side (Back: 180deg) */}
-          <div className="absolute inset-0 h-full w-full overflow-hidden rounded-2xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
-            <Image
-              src={currentVal.image}
-              alt={currentVal.title}
-              fill
-              sizes="80vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-              <span className="font-display text-lg font-medium text-cream">
-                {currentVal.title}
-              </span>
-            </div>
-          </div>
-        </div>
+      {/* Dots */}
+      <div className="mt-4 flex justify-center gap-2">
+        {values.map((_, idx) => (
+          <div
+            key={idx}
+            className={`h-3 w-3 rounded-full transition-colors duration-300 ${
+              activeIndex === idx ? "bg-[#FFFFFFCC]" : "bg-[#FFFFFF33]"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );

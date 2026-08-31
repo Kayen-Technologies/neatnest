@@ -38,7 +38,7 @@ export const services: Service[] = [
     name: "Hotel & Office",
     description:
       "Professional cleaning for offices, hotels, and commercial spaces.",
-    image: "/images/p-window.jpg",
+    image: "/images/hotel3.jpg",
   },
 ];
 
@@ -109,6 +109,7 @@ export const testimonials: Testimonial[] = [
       "Neat Nest brings a level of calm and consistency we used to associate only with five-star hotels. Our home has never felt more itself.",
     name: "Selasi Mensah",
     detail: "Private Residence, Cantonments",
+    avatar: "/images/person.png",
   },
   {
     quote:
@@ -121,6 +122,8 @@ export const testimonials: Testimonial[] = [
       "What stands out most is the consistency. Week after week, they create an environment that feels fresher, calmer and beautifully cared for.",
     name: "Kwame Addo",
     detail: "Homeowner, East Legon",
+        avatar: "/images/person.png",
+
   },
   {
     quote:
@@ -133,6 +136,7 @@ export const testimonials: Testimonial[] = [
       "From the first consultation to the final inspection, each interaction reflects thoughtfulness, precision and a genuine commitment to excellence.",
     name: "Nii Armah",
     detail: "Managing Director, Ridge",
+        avatar: "/images/person.png",
   },
 ];
 
@@ -248,8 +252,8 @@ export const serviceDetails: ServiceDetail[] = [
       "Our residential cleaning service is designed to keep your home clean, fresh, and comfortable. We clean bedrooms, living areas, kitchens, bathrooms, and other shared spaces, paying close attention to surfaces, floors, furniture, and everyday touchpoints.",
       "Whether you need a one-time clean or regular visits, we tailor our service to your lifestyle and schedule. Our team arrives fully equipped, follows a detailed cleaning process, and leaves every room tidy, refreshed, and ready for you to enjoy with complete peace of mind.",
     ],
-    feature: "/images/p-house-clean.jpg",
-    gallery: ["/images/gallery-1.jpg", "/images/p-room-clean.jpg", "/images/gallery-3.jpg"],
+    feature: "/images/gallery-2.jpg",
+    gallery: ["/images/gallery-3.jpg", "/images/p-room-clean.jpg", "/images/gallery-7.jpg"],
   },
   {
     id: "deep",
@@ -258,8 +262,8 @@ export const serviceDetails: ServiceDetail[] = [
       "Our deep cleaning service targets areas that often go unnoticed during routine cleaning. We thoroughly clean behind furniture, inside hard-to-reach corners, skirting boards, high-touch surfaces, kitchens, bathrooms, and other areas where dirt and dust build up over time.",
       "This service is ideal for seasonal cleaning, preparing a home for special occasions, or restoring spaces that need extra attention. We take the time to clean every detail, leaving your home or workplace noticeably fresher, healthier, and more inviting.",
     ],
-    feature: "/images/p-powerwash.jpg",
-    gallery: ["/images/gallery-5.jpg", "/images/p-debris.jpg", "/images/p-fan.jpg"],
+    feature: "/images/deepmain.jpg",
+    gallery: ["/images/gallery-5.jpg", "/images/deep1.jpg", "/images/p-fan.jpg"],
   },
   {
     id: "post-construction",
@@ -278,8 +282,8 @@ export const serviceDetails: ServiceDetail[] = [
       "We maintain clean, organised, and welcoming environments for offices, hotels, and commercial spaces. Our service includes cleaning workstations, reception areas, meeting rooms, guest rooms, washrooms, kitchens, floors, windows, and other shared spaces.",
       "Whether you require daily, weekly, or scheduled cleaning, we work around your business hours to minimise disruption. Our focus is on creating a consistently clean environment that leaves a positive impression on guests, clients, and employees alike.",
     ],
-    feature: "/images/p-vacuum.jpg",
-    gallery: ["/images/p-marble.jpg", "/images/p-cabinet.jpg", "/images/gallery-6.jpg"],
+    feature: "/images/hotel1.jpg",
+    gallery: ["/images/p-marble.jpg", "/images/hotel3.jpg", "/images/hotel4.jpg"],
   },
 ];
 
@@ -288,12 +292,12 @@ export const serviceDetails: ServiceDetail[] = [
 export type BeforeAfter = { label: string; before: string; after: string };
 
 export const beforeAfterPairs: BeforeAfter[] = [
-  { label: "Bathroom", before: "/images/gallery-7.jpg", after: "/images/gallery-1.jpg" },
+  { label: "Bathroom", before: "/images/gallery-1.jpg", after: "/images/gallery-7.jpg" },
   { label: "Garden", before: "/images/p-plant-work.jpg", after: "/images/p-plant.jpg" },
   { label: "Interior", before: "/images/svc-postconstruction.jpg", after: "/images/p-room-clean.jpg" },
   { label: "Pool", before: "/images/p-pool-dirty.jpg", after: "/images/p-pool-clean.jpg" },
-  { label: "Exterior", before: "/images/p-house-dusty.jpg", after: "/images/p-house-clean.jpg" },
-  { label: "Rooftop", before: "/images/p-powerwash.jpg", after: "/images/p-highrise.jpg" },
+  { label: "Exterior", before: "/images/p-house-dusty.jpg", after: "/images/gallery-2.jpg" },
+  { label: "Rooftop", before: "/images/cta-thumb.jpg", after: "/images/p-highrise.jpg" },
 ];
 
 /* ---- Schedule form options ---- */

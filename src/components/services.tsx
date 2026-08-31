@@ -8,7 +8,7 @@ import {
   getActiveServiceIndex,
   getServiceCardState,
 } from "@/lib/services-showcase";
-import { ZoomImage } from "./zoom-image";
+
 
 type ShowcaseState = {
   activeIndex: number;
@@ -46,7 +46,7 @@ export function Services() {
 
       setShowcase((current) =>
         current.activeIndex === activeIndex &&
-        current.titleVisible === titleVisible
+          current.titleVisible === titleVisible
           ? current
           : { activeIndex, titleVisible },
       );
@@ -74,13 +74,14 @@ export function Services() {
   }, [count]);
 
   return (
-    <section id="services" className="bg-cream">
+    <section id="services" className="bg-[#F5EFE6]">
       <div className="services-static-intro shell pt-20 md:pt-28">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
-            Curated services, considered in every detail.
+          <h2 className="font-display text-[clamp(2rem,4.4vw,3.3rem)] font-medium leading-[1.08] tracking-[-0.015em] text-[#1A1A1A]">
+            <span className="block">Curated services,</span>
+            <span className="block">considered in every detail.</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
+          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-[#5E5E5E]">
             Each engagement is tailored from the products we choose to the
             rhythm we keep. Below are the four practices we are most often
             invited into.
@@ -88,28 +89,31 @@ export function Services() {
         </div>
       </div>
 
-      <div className="services-static-list shell pb-20 pt-12 md:pb-28">
+      <div className="services-static-list shell pb-25 pt-20 md:pb-28">
         <div className="space-y-14">
           {services.map((service) => (
             <article key={service.id}>
-              <h3 className="font-display text-2xl font-medium text-ink">
+              <h3 className="font-display text-2xl font-medium text-[#1A1A1A]">
                 {service.name}
               </h3>
-              <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted">
+              <p className="mt-2 max-w-md text-[15px] leading-relaxed text-[#5E5E5E]">
                 {service.description}
               </p>
               <Link
                 href="/services"
-                className="mt-3 inline-block border-b border-ink/40 pb-1 text-[15px] text-ink transition-colors hover:border-brown hover:text-brown"
+                className="mt-3 inline-block border-b border-[#5E5E5E] pb-[0.3px] leading-tight text-[18px] text-[#5E5E5E] transition-colors hover:border-brown hover:text-brown"
               >
                 Discover this Service
               </Link>
-              <ZoomImage
-                src={service.image}
-                alt={service.name}
-                sizes="100vw"
-                frameClassName="relative mt-6 aspect-[4/3] w-full overflow-hidden rounded-[18px]"
-              />
+              <div className="relative mt-10 aspect-[4/5] w-full overflow-hidden rounded-[18px]">
+                <Image
+                  src={service.image}
+                  alt={service.name}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
             </article>
           ))}
         </div>
@@ -124,8 +128,13 @@ export function Services() {
           <div
             className={`services-showcase__title${showcase.titleVisible ? "" : " is-hidden"}`}
           >
-            <span>Curated services,</span>
-            <span>considered in every detail.</span>
+            <span className="text-[#1A1A1A]" >Curated services,</span>
+            <span className="text-[#1A1A1A]">considered in every detail.</span>
+            <p className="mx-auto mt-8 max-w-xl text-[15px] md:text-[16px]  font-normal leading-relaxed text-[#5E5E5E] font-sans tracking-normal">
+              Each engagement is tailored from the products we choose to the
+              rhythm we keep. Below are the four practices we are most often
+              invited into.
+            </p>
           </div>
 
           <div className="services-showcase__cards">
@@ -176,7 +185,7 @@ export function Services() {
           </div>
 
           <span className="services-showcase__label" aria-hidden="true">
-            The services
+            The Services
           </span>
         </div>
       </div>

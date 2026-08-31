@@ -15,25 +15,25 @@ export function CTA() {
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="relative shell pb-40 pt-14 md:pb-52 md:pt-16">
-        <div className="relative overflow-hidden rounded-[28px] bg-cream p-8 md:p-14">
-          <div className="absolute right-5 top-5 h-24 w-28 overflow-hidden rounded-2xl ring-1 ring-black/5 md:h-32 md:w-40">
+      <div className="relative shell py-28 md:py-50">
+        <div className="relative overflow-hidden rounded-[20px] bg-cream px-6 py-10 md:pb-7 md:px-7 md:pt-40">
+          <div className="absolute right-6 top-6 h-36 w-36 overflow-hidden rounded-2xl ring-1 ring-black/5 md:h-50 md:w-40">
             <Image
-              src="/images/cta-thumb.jpg"
+              src="/images/cta-bg.jpg"
               alt="On-site detailing"
               fill
-              sizes="160px"
+              sizes="(max-width: 768px) 144px, 160px"
               className="object-cover"
             />
           </div>
-          <div className="max-w-md pt-16 md:pt-20">
+          <div className="max-w-lg pt-44 md:pt-20">
             <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-medium leading-[1.05] tracking-[-0.015em] text-ink">
               Bring comfort back to your space.
             </h2>
             <button
               type="button"
               onClick={openSchedule}
-              className="mt-7 inline-flex items-center rounded-full bg-background px-7 py-3.5 text-[15px] font-medium text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)] transition-colors hover:bg-brown hover:text-cream cursor-pointer"
+              className="mt-7 inline-flex items-center rounded-full bg-white px-7 py-3.5 text-[15px] font-medium text-ink transition-colors hover:bg-brown hover:text-cream cursor-pointer"
             >
               Schedule a Visit
             </button>

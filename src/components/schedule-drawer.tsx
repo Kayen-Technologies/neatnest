@@ -9,41 +9,40 @@ export function ScheduleDrawer() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 transition-opacity duration-300 ${
-        isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-[100] flex justify-end transition-opacity duration-300 ${isOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
+        className={`absolute inset-0 bg-ink/40 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"
+          }`}
         onClick={closeSchedule}
       />
 
-      {/* Modal Card */}
+      {/* Drawer Panel */}
       <div
-        className={`relative z-10 w-full max-w-4xl bg-cream rounded-[28px] shadow-2xl transition-all duration-300 max-h-[90vh] overflow-y-auto ${
-          isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-4 opacity-0"
-        }`}
+        className={`relative z-10 w-full bg-[#F5EFE6] shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] h-full overflow-y-auto ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
-        <div className="flex w-full flex-col p-6 sm:p-12 md:flex-row md:gap-16">
+        <div className="flex min-h-full w-full flex-col px-5 pb-6 sm:pb-10 lg:flex-row lg:gap-12 xl:gap-20 lg:pr-10 xl:pr-16">
           {/* Left panel (desktop only) */}
-          <div className="hidden flex-col justify-between md:flex md:w-[40%] min-h-[380px]">
+          <div className="hidden flex-col justify-between lg:flex flex-5">
             <div>
               <Image
                 src="/broom.png"
                 alt="Neat Nest Broom"
-                width={120}
-                height={90}
+                width={150}
+                height={120}
                 className="object-contain"
               />
             </div>
-            <h1 className="font-display text-[clamp(2rem,3vw,2.8rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ink mt-auto">
+            <h1 className="mt-auto font-display pl-7 text-6xl font-medium leading-[1.05] tracking-[-0.02em] text-ink">
               Calm Spaces Begin Here.
             </h1>
           </div>
 
           {/* Form panel */}
-          <div className="w-full md:w-[60%]">
+          <div className="flex w-full flex-col justify-center flex-4">
             <ScheduleForm />
           </div>
         </div>

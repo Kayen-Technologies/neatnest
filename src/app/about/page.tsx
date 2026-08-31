@@ -17,7 +17,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative h-[70vh] max-h-[720px] min-h-[420px] w-full">
+      <section className="relative h-[calc(100svh_-_6rem)] md:h-[calc(100svh_-_7rem)] w-full">
         <Image
           src="/images/about-hero.jpg"
           alt="An impeccably kept living room"
@@ -28,14 +28,14 @@ export default function AboutPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
         <div className="shell absolute inset-x-0 bottom-0">
-          <h1 className="max-w-3xl pb-10 font-display text-[clamp(2.4rem,5.4vw,4.4rem)] font-medium leading-[1.02] tracking-[-0.02em] text-cream md:pb-14">
+          <h1 className="max-w-3xl pb-10 font-display text-[clamp(2.4rem,5.4vw,4.4rem)] font-medium leading-[1.02] tracking-[-0.02em] text-white md:pb-14">
             More than cleaning. We care for every space.
           </h1>
         </div>
       </section>
 
       {/* Story */}
-      <section className="shell py-20 md:py-28">
+      <section className="shell py-20 md:py-40">
         <div className="mx-auto max-w-2xl text-center">
           <ScrollReveal
             baseOpacity={0}
@@ -56,7 +56,7 @@ export default function AboutPage() {
             enableBlur={true}
             blurStrength={8}
             baseRotation={1}
-            containerClassName="mt-6 text-[15px] leading-[1.9] text-muted"
+            containerClassName="mt-6 text-[15px] leading-[1.9] text-[#5E5E5E]"
             as="p"
             rotationStart="top bottom"
             rotationEnd="bottom center"
@@ -79,14 +79,14 @@ export default function AboutPage() {
       </section>
 
       {/* Values (dark) */}
-      <section className="bg-ink text-cream">
-        <div className="shell py-20 md:py-28">
-          <h2 className="w-full font-display text-[clamp(1.7rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.01em] text-cream">
+      <section className="bg-ink text-white">
+        <div className="shell py-20 md:py-25">
+          <h2 className="w-full font-display text-[clamp(1.7rem,3.2vw,2.6rem)] font-medium leading-[1.15] tracking-[-0.01em] text-white">
             We care for every space with the same quiet precision, thoughtful
             craftsmanship, and unwavering attention to detail.
           </h2>
 
-          <div className="mt-8 border-b border-white/20 pb-4" />
+          <div className="mt-8 border-b border-white pb-3" />
 
           {/* Mobile carousel */}
           <MobileValuesCard values={aboutValues} />
@@ -97,7 +97,7 @@ export default function AboutPage() {
       </section>
 
       {/* Principles (brown) */}
-      <section className="bg-brown text-cream">
+      <section className="bg-brown-dark">
         <PrinciplesShowcase principles={aboutPrinciples} />
       </section>
 

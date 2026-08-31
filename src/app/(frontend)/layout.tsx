@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ScheduleProvider } from "@/lib/schedule-context";
 import { ScheduleDrawer } from "@/components/schedule-drawer";
+import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -55,6 +56,7 @@ export default function RootLayout({
           <main>{children}</main>
           <SiteFooter />
           <ScheduleDrawer />
+          <Toaster />
         </ScheduleProvider>
       </body>
     </html>

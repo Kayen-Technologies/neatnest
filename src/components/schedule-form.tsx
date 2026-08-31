@@ -5,6 +5,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { scheduleOptions } from "@/lib/data";
 import { useSchedule } from "@/lib/schedule-context";
+import { showError, showSuccess } from "@/lib/toast";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,41 +26,68 @@ const fieldClass =
   "w-full rounded-lg bg-background px-4 text-[15px] text-[#5E5E5E] placeholder:text-[#5E5E5E] outline-none focus:ring-2 focus:ring-brown/40 border-0";
 
 export function ScheduleForm() {
-  const [submitted, setSubmitted] = useState(false);
   const [date, setDate] = useState<Date>();
+  const [resetKey, setResetKey] = useState(0);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Client-side capture. To persist, POST these fields to a Next.js
-    // route handler (e.g. /api/schedule) — the form is already structured for it.
-    setSubmitted(true);
+    const form = e.currentTarget;
+
+    if (!date) {
+      showError("Please select a preferred date.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get("name"),
+        email: formData.get("email"),
+        phone: `${formData.get("countryCode") || ''} ${formData.get("phone") || ''}`.trim(),
+        property: formData.get("property") || undefined,
+        service: formData.get("service") || undefined,
+        size: formData.get("size") || undefined,
+        date: formData.get("date") || undefined,
+        notes: formData.get("notes") || undefined,
+      };
+
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit request.");
+      }
+
+      form.reset();
+      setDate(undefined);
+      setResetKey((prev) => prev + 1);
+      showSuccess("Your request has been submitted successfully!");
+    } catch (error) {
+      console.error("Form submission error:", error);
+      showError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const { closeSchedule } = useSchedule();
 
-  if (submitted) {
-    return (
-      <div className="flex min-h-[420px] flex-col items-center justify-center rounded-3xl bg-background/60 p-10 text-center ring-1 ring-black/5">
-        <h2 className="font-display text-3xl font-medium text-ink">
-          Request received.
-        </h2>
-        <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted">
-          Thank you. A member of the Neat Nest team will be in touch shortly to
-          confirm your assessment and arrange a visit.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setSubmitted(false);
-            closeSchedule();
-          }}
-          className="mt-8 rounded-full bg-brown px-7 py-3 text-[15px] font-medium text-cream transition-colors hover:bg-brown-dark cursor-pointer"
-        >
-          Back to Home
-        </button>
-      </div>
-    );
-  }
+  const handleClose = () => {
+    const form = document.getElementById("schedule-form") as HTMLFormElement;
+    if (form) form.reset();
+    setDate(undefined);
+    setResetKey((prev) => prev + 1);
+    closeSchedule();
+  };
+
+
 
   return (
     <div className="relative flex items-start justify-between gap-3 h-full pt-12 lg:pt-0">
@@ -69,7 +97,7 @@ export function ScheduleForm() {
           Cleaning Assessment Request
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+        <form key={resetKey} id="schedule-form" onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="space-y-4 lg:space-y-7">
             <Input required name="name" placeholder="Full Name *" className={`${fieldClass} h-[52px]`} />
             <Input
@@ -83,7 +111,6 @@ export function ScheduleForm() {
             <div className="flex gap-3 h-[52px]">
               <Combobox name="countryCode" items={["+233", "+1", "+44", "+234", "+27"]}>
                 <ComboboxInput
-                  required
                   placeholder="+233"
                   className="h-full w-[100px] rounded-lg bg-background px-2 text-[15px] text-ink outline-none focus:ring-2 focus:ring-brown/40 border-0"
                 />
@@ -159,6 +186,7 @@ export function ScheduleForm() {
                   selected={date}
                   onSelect={setDate}
                   defaultMonth={date}
+                  disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
                 />
               </PopoverContent>
             </Popover>
@@ -174,9 +202,11 @@ export function ScheduleForm() {
         <div className="mt-8 lg:mt-0 pb-6 lg:pb-0">
           <button
             type="submit"
-            className="w-full rounded-full bg-brown-dark py-4 text-[15px] font-medium text-white transition-colors hover:bg-brown-dark"
+            form="schedule-form"
+            disabled={isSubmitting}
+            className="w-full rounded-full bg-brown-dark py-4 text-[15px] font-medium text-white transition-colors hover:bg-brown-dark disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </div>
@@ -185,7 +215,7 @@ export function ScheduleForm() {
       <div className="absolute right-0 top-2 lg:relative lg:top-auto lg:right-auto lg:mt-9">
         <button
           type="button"
-          onClick={closeSchedule}
+          onClick={handleClose}
           aria-label="Close"
           className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink cursor-pointer"
         >

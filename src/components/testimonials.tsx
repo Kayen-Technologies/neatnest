@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { testimonials } from "@/lib/data";
+import type { Testimonial } from "@/lib/payload";
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const [active, setActive] = useState(0);
   const [mobileActive, setMobileActive] = useState(0);
   const mobileScrollRef = useRef<HTMLDivElement>(null);

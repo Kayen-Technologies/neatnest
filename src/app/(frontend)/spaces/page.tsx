@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { beforeAfterPairs } from "@/lib/data";
+import { getBeforeAfterPairs } from "@/lib/payload";
 import { SpacesShowcase } from "@/components/spaces-showcase";
 
 export const metadata: Metadata = {
@@ -9,7 +10,15 @@ export const metadata: Metadata = {
     "A closer look at the homes, offices and commercial spaces Neat Nest has transformed across Accra.",
 };
 
-export default function SpacesPage() {
+export default async function SpacesPage() {
+  let pairs;
+  try {
+    pairs = await getBeforeAfterPairs();
+  } catch {
+    // Fallback to static data if Payload is unavailable
+    pairs = beforeAfterPairs;
+  }
+
   return (
     <>
       <PageHero
@@ -19,7 +28,8 @@ export default function SpacesPage() {
         imageAlt="Neat Nest cleaning supplies"
       />
 
-      <SpacesShowcase pairs={beforeAfterPairs} />
+      <SpacesShowcase pairs={pairs} />
     </>
   );
 }
+

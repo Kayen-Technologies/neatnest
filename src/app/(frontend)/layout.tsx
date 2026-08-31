@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Geist } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ScheduleProvider } from "@/lib/schedule-context";

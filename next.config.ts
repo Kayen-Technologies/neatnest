@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "9000",
+        pathname: "/neatnest-media/**",
+      },
+    ],
+  },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

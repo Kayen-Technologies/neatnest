@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { services } from "@/lib/data";
+import type { Service } from "@/lib/payload";
 import {
   getActiveServiceIndex,
   getServiceCardState,
@@ -15,7 +15,7 @@ type ShowcaseState = {
   titleVisible: boolean;
 };
 
-export function Services() {
+export function Services({ services }: { services: Service[] }) {
   const scrollCanvasRef = useRef<HTMLDivElement>(null);
   const [showcase, setShowcase] = useState<ShowcaseState>({
     activeIndex: -1,

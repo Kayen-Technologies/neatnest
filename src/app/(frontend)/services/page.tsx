@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { CTA } from "@/components/cta";
 import { serviceDetails } from "@/lib/data";
+import { getServiceDetails } from "@/lib/payload";
 import { ServicesShowcase } from "@/components/services-showcase";
 
 export const metadata: Metadata = {
@@ -10,7 +11,15 @@ export const metadata: Metadata = {
     "Residential, deep, post-construction and hotel & office cleaning tailored to your space in Accra.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  let details;
+  try {
+    details = await getServiceDetails();
+  } catch {
+    // Fallback to static data if Payload is unavailable
+    details = serviceDetails;
+  }
+
   return (
     <>
       <PageHero
@@ -20,9 +29,10 @@ export default function ServicesPage() {
         imageAlt="A Neat Nest professional cleaning a surface"
       />
 
-      <ServicesShowcase services={serviceDetails} />
+      <ServicesShowcase services={details} />
 
       <CTA />
     </>
   );
 }
+
